@@ -15,9 +15,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
@@ -120,6 +122,14 @@ public class MapFragment extends Fragment implements
                 (SupportMapFragment)
                         getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        Button btnFindRestaurants = (Button) root.findViewById(R.id.btnFindRestaurants);
+        btnFindRestaurants.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findRestaurants(v);
+            }
+        });
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         return root;
@@ -224,6 +234,26 @@ public class MapFragment extends Fragment implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    public void findRestaurants (View v){
+        Log.d("test", "Je suis dans findRestaurant");
+        StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+        stringBuilder.append("&location="+lastLocation.getLatitude()+","+lastLocation.getLongitude());
+        stringBuilder.append("&radius="+2000);
+        stringBuilder.append("&keyword="+"restaurant");
+        stringBuilder.append("&key="+getResources().getString(R.string.google_api_key));
+
+        String url = stringBuilder.toString();
+
+        Log.d("url", url);
+
+        Object dataTransfer[] = new Object[2];
+        dataTransfer[0] = mMap;
+        dataTransfer[1] = url;
+
+        GetNearbyPlaces getNearbyPlaces = new GetNearbyPlaces(this.getActivity());
+        getNearbyPlaces.execute(dataTransfer);
     }
 
     @Override
