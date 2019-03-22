@@ -20,11 +20,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.bestrestaurant.dummy.DummyContent;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         HomeFragment.OnFragmentInteractionListener,
         CreditsFragment.OnFragmentInteractionListener,
-        MapFragment.OnFragmentInteractionListener{
+        MapFragment.OnFragmentInteractionListener,
+        ItemFragment.OnListFragmentInteractionListener {
 
     private FragmentManager fm = null;
     private Fragment fragment = null;
@@ -110,6 +113,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_credits:
                 fragment = new CreditsFragment();
                 break;
+            case R.id.nav_list:
+                fragment = new ItemFragment();
+                break;
             default:
         }
         fm.beginTransaction().replace(R.id.content_main,fragment).commit();
@@ -121,6 +127,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
     }
 }

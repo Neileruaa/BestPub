@@ -96,4 +96,5 @@
 
     <string name="google_api_key">AIzaSyA0ciJRiP3WWeoUqBrsr5-5tUr9DWqBQGE</string>
     <string name="restaurants">Restaurants</string>
+    <string name="list">List</string>
 </resources>
