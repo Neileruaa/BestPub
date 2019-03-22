@@ -1,11 +1,14 @@
 package com.example.bestrestaurant;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,9 @@ public class ItemFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
+    SharedPreferences sharedPreferences;
+
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -49,6 +55,34 @@ public class ItemFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+
+        Boolean isAnotherLocActive = sharedPreferences.getBoolean("key_another_location", false);
+
+        double lat;
+        double lon;
+
+        if (isAnotherLocActive){
+            lat = Double.parseDouble(sharedPreferences.getString("latitude", "47.6437109"));
+            lon = Double.parseDouble(sharedPreferences.getString("longitude", "6.8408862"));
+
+            StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+            stringBuilder.append("&location="+lat+","+lon);
+            stringBuilder.append("&radius="+2000);
+            stringBuilder.append("&keyword="+"restaurant");
+            stringBuilder.append("&key="+getResources().getString(R.string.google_api_key));
+
+            String url = stringBuilder.toString();
+
+            Log.d("url", url);
+
+            Object dataTransfer[] = new Object[1];
+            dataTransfer[0] = url;
+
+            GetNearbyPlaces getNearbyPlaces = new GetNearbyPlaces(this.getActivity());
+            getNearbyPlaces.execute(dataTransfer);
+        }
+
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
