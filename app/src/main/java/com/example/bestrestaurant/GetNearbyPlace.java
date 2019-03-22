@@ -24,7 +24,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
+public class GetNearbyPlace extends AsyncTask<Object, String, String> {
 
     GoogleMap mMap;
     String url;
@@ -34,7 +34,7 @@ public class GetNearbyPlaces extends AsyncTask<Object, String, String> {
     String data;
     private Context context;
 
-    public GetNearbyPlaces(Context context) {
+    public GetNearbyPlace(Context context) {
         this.context = context;
     }
 

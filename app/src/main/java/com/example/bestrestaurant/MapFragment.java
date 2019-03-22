@@ -264,8 +264,8 @@ public class MapFragment extends Fragment implements
         dataTransfer[0] = mMap;
         dataTransfer[1] = url;
 
-        GetNearbyPlaces getNearbyPlaces = new GetNearbyPlaces(this.getActivity());
-        getNearbyPlaces.execute(dataTransfer);
+        GetNearbyPlace getNearbyPlace = new GetNearbyPlace(this.getActivity());
+        getNearbyPlace.execute(dataTransfer);
     }
 
     @Override
