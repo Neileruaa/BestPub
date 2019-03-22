@@ -237,9 +237,21 @@ public class MapFragment extends Fragment implements
     }
 
     public void findRestaurants (View v){
-        Log.d("test", "Je suis dans findRestaurant");
+        Boolean isAnotherLocActive = sharedPreferences.getBoolean("key_another_location", false);
+
+        double lat;
+        double lon;
+
+        if (isAnotherLocActive){
+            lat = Double.parseDouble(sharedPreferences.getString("latitude", "47.6437109"));
+            lon = Double.parseDouble(sharedPreferences.getString("longitude", "6.8408862"));
+        } else{
+            lat = lastLocation.getLatitude();
+            lon = lastLocation.getLongitude();
+        }
+
         StringBuilder stringBuilder = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        stringBuilder.append("&location="+lastLocation.getLatitude()+","+lastLocation.getLongitude());
+        stringBuilder.append("&location="+lat+","+lon);
         stringBuilder.append("&radius="+2000);
         stringBuilder.append("&keyword="+"restaurant");
         stringBuilder.append("&key="+getResources().getString(R.string.google_api_key));
